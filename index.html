@@ -9,38 +9,22 @@
 <div id='info'>
     <div id='title'> 2048 </div>
     <div id='button-new-game'> New Game </div>
+    <form id="selectForm" method="post">
+        <label for="gridSelect">Taille de la grille</label>
+        <select id="gridSelect" name="grid">
+            <option value="4" selected> 4 X 4 </option>
+            <option value="5"> 5 X 5 </option>
+            <option value="6"> 6 X 6 </option>
+        </select>
+    </form>
 </div>
 <div id='game'>
     <div class="game-action"  id="gameover">Game over!
     </div>
     <div class="game-action" id="won">You won!
     </div>
-    <div class="row">
-        <div class='cell' id="00"><div class="box box-0-0 num-2">2</div></div>
-        <div class='cell' id="01"><div class="box box-0-1 num-2">2</div></div>
-        <div class='cell' id="02"><div class="box box-0-2 num-4">4</div></div>
-        <div class='cell' id="03"><div class="box box-0-3 num-4">4</div></div>
-        <div class='cell' id="04"><div class="box box-0-2 num-4">4</div></div>
-        <div class='cell' id="05"><div class="box box-0-3 num-4">4</div></div>
+    <div id="grid">
     </div>
-    <!--<div class="row">-->
-        <!--<div class='cell' id="10"></div>-->
-        <!--<div class='cell' id="11"></div>-->
-        <!--<div class='cell' id="12"></div>-->
-        <!--<div class='cell' id="13"></div>-->
-    <!--</div>-->
-    <!--<div class="row">-->
-        <!--<div class='cell' id="20"></div>-->
-        <!--<div class='cell' id="21"></div>-->
-        <!--<div class='cell' id="22"></div>-->
-        <!--<div class='cell' id="23"></div>-->
-    <!--</div>-->
-    <!--<div class="row">-->
-        <!--<div class='cell' id="30"></div>-->
-        <!--<div class='cell' id="31"></div>-->
-        <!--<div class='cell' id="32"></div>-->
-        <!--<div class='cell' id="33"></div>-->
-    <!--</div>-->
 </div>
 <script src="js/jquery-3.2.1.min.js"></script>
 <script src="js/2048.js"></script>
