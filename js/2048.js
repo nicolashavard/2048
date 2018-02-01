@@ -1,42 +1,35 @@
-var pepito = function ()
-{
+var new_grid = function () {
     var grid = $("#gridSelect").val();
     $("div#grid > div").remove();
     $("#game").css({"width": grid*"100", "height": grid*"100"});
     var all_row = $("#grid");
-    for(row = 0; row < grid; row++)
-    {
+
+    for(row = 0; row < grid; row++) {
         all_row.append("<div class='row'></div>");
     }
-    row = 0;
-    $.each(all_row.find(".row"), function () {
 
-        for(col = 0; col < grid; col++)
-        {
-            $(this).css({"width": grid*"100"}).append(function ()
-            {
+    row = 0;
+
+    $.each(all_row.find(".row"), function () {
+        for(col = 0; col < grid; col++) {
+            $(this).css({"width": grid*"100"}).append(function () {
                 $(this).append("<div class='cell' id='"+row+"-"+col+"'>")
             });
         }
         row++;
     });
 
-    for(rand = 0; rand < grid - 2; rand++)
-    {
+    for(rand = 0; rand < grid - 2; rand++) {
         random();
     }
 };
 
-empty_cells = function()
-{
+empty_cells = function() {
     var empty_cells = [];
-
     var all_cells = $("#grid").find(".cell");
 
     $.each(all_cells, function (index, item) {
-
-        if(item.innerText === "")
-        {
+        if(item.innerText === "") {
             empty_cells.push($(this).attr("id"));
         }
     });
@@ -44,13 +37,13 @@ empty_cells = function()
 };
 
 random = function(){
-
+    var pop_cell = [2, 2, 2, 4];
+    var random_pop = Math.floor((Math.random() * pop_cell.length));
+    var new_pop = pop_cell[random_pop];
     var empty_cell = empty_cells();
     var random_cell = Math.floor((Math.random() * empty_cell.length));
     var new_cell = empty_cell[random_cell];
-
-    $("#grid").find("#"+new_cell).append("<div class='box box-"+new_cell+" num-2'>2</div>")
-
+    $("#grid").find("#"+new_cell).append("<div class='box box-"+new_cell+" num-"+new_pop+"'>"+new_pop+"</div>")
 };
 
 function setCookie(cname, cvalue, exdays) {
@@ -77,16 +70,15 @@ function getCookie(cname) {
 
 function checkCookie() {
     var grid = $("#gridSelect").val();
-    var best_score = getCookie("best_score_"+grid);
-    if (best_score != "") {
-        $(".best-container").text(best_score);
+    var score = getCookie("best_score_"+grid);
+    if (score !== "") {
+        $(".best-container").text(score);
     } else {
         setCookie("best_score_"+grid, 0, 365);
     }
 }
 
-$(document).keyup(function(e)
-{
+$(document).keyup(game = function(e) {
     array_cols = [];
     selColonne = {
         "ArrowUp" : ".row > div[id$='-?']",
@@ -94,92 +86,83 @@ $(document).keyup(function(e)
         "ArrowLeft" : ".row > div[id^='?-']",
         "ArrowRight" : ".row > div[id^='?-']"
     };
-
-    var grid = $("#gridSelect").val();
-
-    recupCells(selColonne[e.key], e.key, grid);
-
-    function recupCells(query, direction, grid)
-    {
-        for(index = 0; index < grid; index++)
-        {
-            array_cells = [];
-
-            q = query.replace('?',index);
-            q2 = $(q).get();
-            if(direction === "ArrowDown" || direction === "ArrowRight")
-            {
-                q2 = q2.reverse();
-            }
-
-            $(q2).each(function(index, item)
-            {
-                if(item.innerText === "")
-                {
-                    array_cells.push(0);
-                }
-                else
-                {
-                    array_cells.push(item.innerText);
-                }
-            });
-            array_cols.push(array_cells);
-        }
-        verifMove(array_cols, e.key, grid);
+    if(typeof e === "string") {
+        move = e;
+    }
+    else {
+        move = e.key;
     }
 
-    function verifMove(tab, direction, grid)
-    {
+    var grid = $("#gridSelect").val();
+    var do_move = true;
+
+    recupCells(selColonne[move], move, grid, do_move);
+
+    function recupCells(query, direction, grid, do_move) {
+
+        if(query === ".row > div[id$='-?']" || query === ".row > div[id^='?-']") {
+            for (index = 0; index < grid; index++) {
+                var array_cells = [];
+
+                q = query.replace('?', index);
+
+
+                q2 = $(q).get();
+
+                if (direction === "ArrowDown" || direction === "ArrowRight") {
+                    q2 = q2.reverse();
+                }
+
+                $(q2).each(function (index, item) {
+                    if (item.innerText === "") {
+                        array_cells.push(0);
+                    }
+                    else {
+                        array_cells.push(item.innerText);
+                    }
+                });
+                array_cols.push(array_cells);
+            }
+            return verifMove(array_cols, direction, grid, do_move);
+        }
+    }
+
+    function verifMove(tab, direction, grid, do_move) {
         var YouShouldPass = false;
-        var YouShouldPassPlus = false;
-        tab.forEach(function (element)
-        {
-            element.forEach(function(cell, index)
-            {
-                if(cell !== 0)
-                {
+        tab.forEach(function (element) {
+            element.forEach(function(cell, index) {
+                if(cell !== 0) {
                     var previous_cell = (index - 1 >= 0) ? element[index - 1] : null;
                     var next_cell = (index + 1 <= grid) ? element[index + 1] : null;
 
-                    if(previous_cell !== null && previous_cell === 0 || next_cell !== null && next_cell === cell)
-                    {
+                    if(previous_cell !== null && previous_cell === 0 || next_cell !== null && next_cell === cell) {
                         YouShouldPass = true;
-
-                        if(next_cell !== null && next_cell === cell)
-                        {
-                            YouShouldPassPlus = true;
-                        }
                         return true;
                     }
                 }
             });
-            if(YouShouldPass === true)
-            {
+            if(YouShouldPass === true) {
                 return true;
             }
         });
-        if(YouShouldPass === true)
-        {
-            verifAdd(tab, direction, grid);
-            return true;
-        }
-        else if(YouShouldPass === false)
-        {
-            var empty_cell = empty_cells();
 
-            if(empty_cell.length === 0 && YouShouldPassPlus === false)
-            {
-                alert('GAME OVER');
-                pepito();
+        if(do_move === false) {
+            if(YouShouldPass === true) {
+                return "ON";
             }
-            console.log(empty_cell);
-            return false;
+            else {
+                return "OFF";
+            }
+        }
+        else if(YouShouldPass === true && do_move === true) {
+            verifAdd(tab, direction);
+            return true;
         }
     }
 
-    function verifAdd(tab, direction, grid)
-    {
+    function verifAdd(tab, direction) {
         var score = 0;
+        var victory = false;
         tab.forEach(function (value) {
             var i = 0;
             while(i < value.length) {
@@ -192,123 +175,152 @@ $(document).keyup(function(e)
         });
 
         tab.forEach(function (element) {
-            var first_pass = false;
-            var pass_by_succes = false;
             var first_value = 0;
             var result_value = 0;
+            var second_value = 0;
 
-            element.forEach(function (element2, index) {
-                if(first_pass === false)
-                {
-                    first_value = element2;
-                    first_pass = true;
-                }
-                else
-                {
-                    var second_value = element2;
-                    if(first_value === second_value && pass_by_succes === false)
-                    {
-                        result_value = parseInt(first_value) + parseInt(second_value);
-                        element[index-1] = result_value;
-                        element.splice(index, 1);
-                        pass_by_succes = true;
+            for(var i = 0; i < element.length; i++) {
+                if(element[i + 1] !== null && element[i] === element[i+1]) {
+                    first_value = element[i];
+                    second_value = element[i+1];
+                    result_value = parseInt(first_value) + parseInt(second_value);
+
+                    if(result_value === 2048) {
+                        victory = true;
                     }
-                    else
-                    {
-                        first_value = element2;
-                    }
+                    element[i] = result_value;
+                    element.splice(i+1, 1);
+                    score = score+result_value;
                 }
-            });
-            score = score+result_value;
+            }
         });
 
         var last_score = $(".score-container").text();
         var new_score = parseInt(last_score) + parseInt(score);
 
-        if($(".best-container").text() < new_score)
-        {
+        if($(".best-container").text() < new_score) {
             $(".best-container").text(new_score);
             setCookie("best_score_"+grid, new_score, 365);
         }
 
         $(".score-container").text(new_score);
-        makeNewCells(tab, direction, grid);
+        makeNewCells(tab, direction, new_score, victory);
     }
 
-    function makeNewCells(tab, direction)
-    {
+    function makeNewCells(tab, direction, new_score, victory) {
         var all_cells = $("#grid").find(".cell");
 
         $.each(all_cells, function (element, index) {
-            if(index.firstElementChild !== null)
-            {
+            if(index.firstElementChild !== null) {
                 index.removeChild(index.firstElementChild);
             }
         });
 
-        if( direction === "ArrowUp")
-        {
+        if( direction === "ArrowUp") {
             tab.forEach(function (value, col) {
 
                 value.forEach(function (value2, row) {
-
                     $("#grid").find("#"+row+"-"+col).append("<div class='box box-"+row+"-"+col+" num-"+value2+"'>"+value2+"</div>")
                 })
             });
         }
-        else if( direction === "ArrowDown" )
-        {
+        else if( direction === "ArrowDown" ) {
             tab.forEach(function (value, col) {
                 var row_div = grid - 1;
 
                 value.forEach(function (value2) {
-
                     $("#grid").find("#"+row_div+"-"+col).append("<div class='box box-"+row_div+"-"+col+" num-"+value2+"'>"+value2+"</div>");
                     row_div--;
                 })
             });
         }
-        else if( direction === "ArrowLeft" )
-        {
+        else if( direction === "ArrowLeft" ) {
             tab.forEach(function (value, col) {
                 var col_div = 0;
 
                 value.forEach(function (value2) {
-
                     $("#grid").find("#"+col+"-"+col_div).append("<div class='box box-"+col+"-"+col_div+" num-"+value2+"'>"+value2+"</div>");
                     col_div++;
                 })
             });
         }
-        else if( direction === "ArrowRight" )
-        {
-
+        else if( direction === "ArrowRight" ) {
             tab.forEach(function (value, col) {
                 var col_div = grid -1;
 
                 value.forEach(function (value2) {
-
                     $("#grid").find("#"+col+"-"+col_div).append("<div class='box box-"+col+"-"+col_div+" num-"+value2+"'>"+value2+"</div>");
                     col_div--;
                 })
             });
         }
-        random();
+
+        if(victory === true) {
+            var player = prompt("VICTORY\n"+"Your score is "+new_score+"\nPlease write your name :");
+
+            // if (player !== null) {
+            //     // document.getElementById("demo").innerHTML =
+            //     //     "Hello " + player + "! How are you today?";
+            // }
+            setCookie("best_score_"+grid, new_score, 365);
+
+            new_grid();
+            $(".score-container").text(0);
+        }
+        else {
+            random();
+            check_New_Moves(new_score);
+        }
+    }
+
+    function check_New_Moves(new_score) {
+        var no_move = false;
+        var check_moves = [];
+        var off = 0;
+        check_moves.push(recupCells(".row > div[id$='-?']", "ArrowUp", grid, no_move));
+        check_moves.push(recupCells(".row > div[id$='-?']", "ArrowDown", grid, no_move));
+        check_moves.push(recupCells(".row > div[id^='?-']", "ArrowLeft", grid, no_move));
+        check_moves.push(recupCells(".row > div[id^='?-']", "ArrowRight", grid, no_move));
+
+        console.log(check_moves);
+
+        check_moves.forEach(function (element) {
+            if(element === "OFF") {
+                off++;
+            }
+        });
+
+        if(off == grid) {
+
+            var player = prompt("VICTORY\n"+"Your score is "+new_score+"\nPlease write your name :");
+
+            // if (player !== null) {
+            //     // document.getElementById("demo").innerHTML =
+            //     //     "Hello " + player + "! How are you today?";
+            // }
+            setCookie("best_score_"+grid, new_score, 365);
+
+            new_grid();
+            $(".score-container").text(0);
+        }
+        else {
+            return true;
+        }
     }
 });
 
 $("#gridSelect").change(function () {
-    pepito();
+    new_grid();
     checkCookie();
     $(".score-container").text(0);
-
 });
 
 $("#button-new-game").click(function () {
-    pepito();
+    new_grid();
     $(".score-container").text(0);
 });
 
 $( document ).ready(
-    pepito(), checkCookie()
+    new_grid(),
+    checkCookie()
 );

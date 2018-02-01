@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>2048</title>
-    <link rel="stylesheet" href="css/2048.css">
-</head>
-<body>
-<div id='info'>
-    <div id='title'> 2048 </div>
-    <div class="scores-container">
-        <div class="score-container">0</div>
-        <div class="best-container">0</div>
-        <div id='button-new-game'> New Game </div>
-    </div>
-    <form id="selectForm" method="post">
-        <label for="gridSelect">Taille de la grille</label>
-        <select id="gridSelect" name="grid">
-            <option value="4" selected> 4 X 4 </option>
-            <option value="5"> 5 X 5 </option>
-            <option value="6"> 6 X 6 </option>
-        </select>
-    </form>
-</div>
-<div id='game'>
-    <div class="game-action"  id="gameover">Game over!
-    </div>
-    <div class="game-action" id="won">You won!
-    </div>
-    <div id="grid">
-    </div>
-</div>
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/2048.js"></script>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <title>2048</title>
+        <link rel="stylesheet" href="css/2048.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row-info">
+                <div class="col-6">
+                    <div id='info'>
+                        <div class="row-info">
+                            <div class="col-6" id='title'> 2048 </div>
+                            <div class="scores-container col-6">
+                                <div>Current score : <span class="score-container">0</span></div>
+                                <div>Your best score : <span class="your-best-container">0</span></div>
+                                <div>Best score : <span class="best-container">0</span></div>
+                            </div>
+                        </div>
+                        <div id="div-new-button">
+                            <form id="selectForm" method="post">
+                                <label for="gridSelect">Taille de la grille</label>
+                                <select id="gridSelect" name="grid">
+                                    <option value="4" selected> 4 X 4 </option>
+                                    <option value="5"> 5 X 5 </option>
+                                    <option value="6"> 6 X 6 </option>
+                                </select>
+                            </form>
+                            <div id='button-new-game'> New Game </div>
+                        </div>
+                    </div>
+                    <div id='game'>
+                        <div class="game-action" id="gameover">Game over!
+                        </div>
+                        <div class="game-action" id="won">You won!
+                        </div>
+                        <div id="grid">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h1 class="game-button" onclick="game(e = 'ArrowLeft')">&#8592</h1>
+                    <h1 onclick="game(e = 'ArrowUp')">&#8593</h1>
+                    <h1 onclick="game(e = 'ArrowRight')">&#8594</h1>
+                    <h1 onclick="game(e = 'ArrowDown')">&#8595</h1>
+                </div>
+            </div>
+        </div>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/2048.js"></script>
+    </body>
 </html>

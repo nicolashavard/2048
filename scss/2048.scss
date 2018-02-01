@@ -4,29 +4,59 @@ body {
   background-color: #F7FCF0;
 }
 
+#scoreboard{
+  margin-top: 30px;
+  width: 300px;
+  height: 500px;
+  border: 5px solid #FA0557;
+}
+p{
+  margin:0;
+  padding:0;
+}
+#scoreboard-title
+{
+  height: 20px;
+  border-bottom: 1px solid #FA0557;
+}
+.container{
+  width: 1000px;
+  margin: auto;
+
+}
 #info {
   width: 414px;
-  height: 180px;
+  //height: 180px;
   margin: auto;
 }
 
 #title {
-  display: inline-block;
-  height: 100px;
-  width: 200px;
-  padding-top: 30px;
-  font-size: 96px;
-  line-height: 100px;
+  //display: inline-block;
+  //height: 100px;
+  //width: 200px;
+  //padding-top: 30px;
+  font-size: 60px;
+  //line-height: 100px;
 }
 
+.scores-container{
+  vertical-align: middle;
+}
+#div-new-button
+{
+  width:100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
 #button-new-game {
-  display: inline-block;
+  //display: inline-block;
   background-color: #FA0557;
   width: 114px;
   height: 40px;
-  margin: 0 0 30px 90px;
+  //margin: 0 0 30px 90px;
   border-radius: 7px;
-  line-height: 40px;
+  //line-height: 40px;
   vertical-align: middle;
   font-size: 18px;
   text-align: center;
@@ -92,6 +122,25 @@ height: 100px;
   line-height: 86px;
   text-align: center;
   font-size: 32px;
+}
+%clearfix:after {
+  display:block;
+  clear:both;
+  content:'';
+}
+
+
+.row-info{
+  @extend %clearfix;
+  display: flex;
+}
+
+@for $i from 1 through 12
+{
+  .col-#{$i}
+  {
+    width: 100% / (12/$i);
+  }
 }
 
 $nums:(2 #F2FAE8, 4 #DDE6D3, 8 #C8CFC0, 16 #B9C2AE, 32 #A9B0A0, 64 #FAF5F7, 128 #FAE3EB, 256 #FAD2DF, 512 #FAB4CB, 1024 #FC95B8, 2048 #FF0055);
