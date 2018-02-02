@@ -256,7 +256,7 @@ $(document).keyup(game = function(e) {
         }
 
         if(victory === true) {
-            alert("VICTORY\n"+"Your score is "+new_score+"\nPlease write your name :");
+            alert("VICTORY\n"+"Your score is "+new_score);
             setCookie("best_score_"+grid, new_score, 365);
 
             new_grid();
@@ -287,12 +287,8 @@ $(document).keyup(game = function(e) {
 
         if(off == grid) {
 
-            var player = prompt("VICTORY\n"+"Your score is "+new_score+"\nPlease write your name :");
+            alert("VICTORY\n"+"Your score is "+new_score);
 
-            // if (player !== null) {
-            //     // document.getElementById("demo").innerHTML =
-            //     //     "Hello " + player + "! How are you today?";
-            // }
             setCookie("best_score_"+grid, new_score, 365);
 
             new_grid();
