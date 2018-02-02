@@ -20,6 +20,11 @@ body {
   justify-content: space-between;
   margin-bottom: 10px; }
 
+.go_right{
+  display: flex;
+  justify-content: flex-end;
+}
+
 #button-new-game {
   background-color: #FA0557;
   width: 114px;

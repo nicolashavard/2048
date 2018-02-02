@@ -285,7 +285,7 @@ $(document).keyup(game = function(e) {
             }
         });
 
-        if(off == grid) {
+        if(off === 4) {
 
             alert("VICTORY\n"+"Your score is "+new_score);
 
