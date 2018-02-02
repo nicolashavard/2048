@@ -256,12 +256,7 @@ $(document).keyup(game = function(e) {
         }
 
         if(victory === true) {
-            var player = prompt("VICTORY\n"+"Your score is "+new_score+"\nPlease write your name :");
-
-            // if (player !== null) {
-            //     // document.getElementById("demo").innerHTML =
-            //     //     "Hello " + player + "! How are you today?";
-            // }
+            alert("VICTORY\n"+"Your score is "+new_score+"\nPlease write your name :");
             setCookie("best_score_"+grid, new_score, 365);
 
             new_grid();
